@@ -151,4 +151,67 @@ BEGIN
     DELETE FROM giaovien WHERE MaGV = maGV;
     INSERT INTO log (MaUser, Noidung, ThoiGian) VALUES (maUser, CONCAT('Deleted GiaoVien: ', maGV), NOW());
 END //
+DELIMITER //
+CREATE PROCEDURE InsertDungCu(
+    IN dungcu_MaDC CHAR(10),
+    IN dungcu_TenDC VARCHAR(50),
+    IN dungcu_MaPh CHAR(10),
+    IN dungcu_SoLuong INT,
+    IN maUser CHAR(10)
+)
+BEGIN
+    INSERT INTO dungcu (MaDC, TenDC, MaPh, SoLuong) VALUES (dungcu_MaDC, dungcu_TenDC, dungcu_MaPh, dungcu_SoLuong);
+    INSERT INTO log (MaUser, Noidung, ThoiGian) VALUES (maUser, CONCAT('Inserted a new DungCu: ', dungcu_TenDC), NOW());
+END //
+DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE UpdateDungCu(
+    IN dungcu_MaDC CHAR(10),
+    IN dungcu_TenDC VARCHAR(50),
+    IN dungcu_MaPh CHAR(10),
+    IN dungcu_SoLuong INT,
+    IN maUser CHAR(10)
+)
+BEGIN
+    UPDATE dungcu SET TenDC = dungcu_TenDC, MaPh = dungcu_MaPh, SoLuong = dungcu_SoLuong WHERE MaDC = dungcu_MaDC;
+    INSERT INTO log (MaUser, Noidung, ThoiGian) VALUES (maUser, CONCAT('Updated DungCu: ', dungcu_TenDC), NOW());
+END //
+DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE DeleteDungCu(
+    IN dungcu_MaDC CHAR(10),
+    IN maUser CHAR(10)
+)
+BEGIN
+    DELETE FROM dungcu WHERE MaDC = dungcu_MaDC;
+    INSERT INTO log (MaUser, Noidung, ThoiGian) VALUES (maUser, CONCAT('Deleted DungCu: ', dungcu_MaDC), NOW());
+END //
+DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE InsertHoaDon(
+    IN hoadon_MaHD CHAR(10),
+    IN hoadon_NgayLap DATE,
+    IN hoadon_MaDC CHAR(10),
+    IN hoadon_SoLuong INT,
+    IN hoadon_ThanhTien INT,
+    IN maUser CHAR(10)
+)
+BEGIN
+    INSERT INTO hoadon (MaHD, NgayLap, MaDC, SoLuong, ThanhTien) VALUES (hoadon_MaHD, hoadon_NgayLap, hoadon_MaDC, hoadon_SoLuong, hoadon_ThanhTien);
+    INSERT INTO log (MaUser, Noidung, ThoiGian) VALUES (maUser, CONCAT('Inserted a new HoaDon: ', hoadon_MaHD), NOW());
+END //
+DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE UpdateHoaDon(
+    IN hoadon_MaHD CHAR(10),
+    IN hoadon_MaDC CHAR(10),
+    IN hoadon_SoLuong INT,
+    IN hoadon_ThanhTien INT,
+    IN maUser CHAR(10)
+)
+BEGIN
+    UPDATE hoadon SET MaDC = hoadon_MaDC, SoLuong = hoadon_SoLuong, ThanhTien = hoadon_ThanhTien WHERE MaHD = hoadon_MaHD;
+    INSERT INTO log (MaUser, Noidung, ThoiGian) VALUES (maUser, CONCAT('Updated HoaDon: ', hoadon_MaHD), NOW());
+END //
+DELIMITER ;
 
