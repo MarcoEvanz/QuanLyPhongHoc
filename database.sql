@@ -214,4 +214,31 @@ BEGIN
     INSERT INTO log (MaUser, Noidung, ThoiGian) VALUES (maUser, CONCAT('Updated HoaDon: ', hoadon_MaHD), NOW());
 END //
 DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE CountAndInsertTaiKhoan(
+    IN p_MaUser VARCHAR(50),
+    IN p_Username VARCHAR(50),
+    IN p_Password VARCHAR(50),
+    IN p_LoaiTK VARCHAR(50)
+)
+BEGIN
+    DECLARE v_Count INT;
+    DECLARE v_Success BIT DEFAULT 0;
+
+    -- Count the number of rows in taikhoan
+    SELECT COUNT(*) INTO v_Count FROM taikhoan;
+
+    -- Check if user already exists
+    IF NOT EXISTS (SELECT 1 FROM taikhoan WHERE Username = p_Username) THEN
+        -- Insert new record into taikhoan
+        INSERT INTO taikhoan (MaUser, Username, Password, LoaiTK)
+        VALUES (p_MaUser, p_Username, p_Password, p_LoaiTK);
+        SET v_Success = 1;
+    END IF;
+
+    SELECT v_Count AS count, v_Success AS success;
+END//
+
+DELIMITER ;
 
