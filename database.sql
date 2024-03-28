@@ -282,5 +282,52 @@ END //
 DELIMITER ;
 
 
+-- Create table for DiemSo
+CREATE TABLE DiemSo (
+    MaHS CHAR(10),
+    TenMon VARCHAR(50),
+    Diem INT,
+    HeSo INT,
+    ThoiGian DATE
+);
+
+-- Procedure for inserting DiemSo
+DELIMITER //
+CREATE PROCEDURE InsertDiemSo(
+    IN diemso_MaHS CHAR(10),
+    IN diemso_TenMon VARCHAR(50),
+    IN diemso_Diem INT,
+    IN diemso_HeSo INT,
+    IN diemso_ThoiGian DATE,
+    IN maUser CHAR(10)
+)
+BEGIN
+    INSERT INTO DiemSo (MaHS, TenMon, Diem, HeSo, ThoiGian) 
+    VALUES (diemso_MaHS, diemso_TenMon, diemso_Diem, diemso_HeSo, diemso_ThoiGian);
+    
+    INSERT INTO log (MaUser, Noidung, ThoiGian) 
+    VALUES (maUser, CONCAT('Inserted a new DiemSo for MaHS: ', diemso_MaHS), NOW());
+END //
 DELIMITER ;
+
+-- Procedure for updating DiemSo
+DELIMITER //
+CREATE PROCEDURE UpdateDiemSo(
+    IN diemso_MaHS CHAR(10),
+    IN diemso_TenMon VARCHAR(50),
+    IN diemso_Diem INT,
+    IN diemso_HeSo INT,
+    IN diemso_ThoiGian DATE,
+    IN maUser CHAR(10)
+)
+BEGIN
+    UPDATE DiemSo 
+    SET TenMon = diemso_TenMon, Diem = diemso_Diem, HeSo = diemso_HeSo, ThoiGian = diemso_ThoiGian 
+    WHERE MaHS = diemso_MaHS;
+    
+    INSERT INTO log (MaUser, Noidung, ThoiGian) 
+    VALUES (maUser, CONCAT('Updated DiemSo for MaHS: ', diemso_MaHS), NOW());
+END //
+DELIMITER ;
+
 
