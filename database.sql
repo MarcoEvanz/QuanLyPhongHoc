@@ -239,6 +239,48 @@ BEGIN
 
     SELECT v_Count AS count, v_Success AS success;
 END//
+CREATE TABLE HocSinh (
+    MaHS CHAR(10) PRIMARY KEY,
+    TenHS VARCHAR(50),
+    MaUS CHAR(10),
+    MaLop CHAR(10),
+    NgaySinh DATE
+);
+DELIMITER //
+CREATE PROCEDURE InsertHocSinh(
+    IN _MaHS CHAR(10),
+    IN _TenHS VARCHAR(50),
+    IN _MaUS CHAR(10),
+    IN _MaLop CHAR(10),
+    IN _NgaySinh DATE,
+    IN _maUser CHAR(10)
+)
+BEGIN
+    INSERT INTO HocSinh (MaHS, TenHS, MaUS, MaLop, NgaySinh) 
+    VALUES (_MaHS, _TenHS, _MaUS, _MaLop, _NgaySinh);
+    
+    INSERT INTO log (MaUser, Noidung, ThoiGian) 
+    VALUES (_maUser, CONCAT('Inserted new HocSinh: ', _MaHS), NOW());
+END //
+DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE UpdateHocSinh(
+    IN _MaHS CHAR(10),
+    IN _TenHS VARCHAR(50),
+    IN _MaLop CHAR(10),
+    IN _NgaySinh DATE,
+    IN _maUser CHAR(10)
+)
+BEGIN
+    UPDATE HocSinh 
+    SET TenHS = _TenHS, MaLop = _MaLop, NgaySinh = _NgaySinh 
+    WHERE MaHS = _MaHS;
+    
+    INSERT INTO log (MaUser, Noidung, ThoiGian) 
+    VALUES (_maUser, CONCAT('Updated HocSinh: ', _MaHS), NOW());
+END //
+DELIMITER ;
+
 
 DELIMITER ;
 
